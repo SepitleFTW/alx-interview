@@ -1,19 +1,15 @@
 #!/usr/bin/python3
-"""Reads from standard input and computes metrics.
-
-After every ten lines or the input of a keyboard interruption (CTRL + C),
-prints the following statistics:
-    - Total file size up to that point.
-    - Count of read status codes up to that point.
+"""
+Input format: <IP Address> - [<date>] "GET /projects/2
+60 HTTP/1.1" <status code> <file size> (if the format
+is not this one, the line must be skipped)
+After
 """
 
 
 def print_stats(size, status_codes):
-    """Print accumulated metrics.
-
-    Args:
-        size (int): The accumulated read file size.
-        status_codes (dict): The accumulated count of status codes.
+    """
+        fucntion for print_stats
     """
     print("File size: {}".format(size))
     for key in sorted(status_codes):
