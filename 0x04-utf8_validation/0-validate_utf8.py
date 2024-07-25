@@ -1,13 +1,10 @@
 #!/usr/bin/python3
-"""
-Lets dive into utf8 validation
-"""
+"""UTF-8 Validation"""
 
 
 def get_leading_set_bits(num):
-    """
-    return num of leading set bits
-    """
+    """returns the number of leading set bits (1)"""
+    set_bits = 0
     helper = 1 << 7
     while helper & num:
         set_bits += 1
@@ -16,9 +13,7 @@ def get_leading_set_bits(num):
 
 
 def validUTF8(data):
-    """
-    checks if a data set repre a valid utf8 enc
-    """
+    """determines if a given data set represents a valid UTF-8 encoding"""
     bits_count = 0
     for i in range(len(data)):
         if bits_count == 0:
