@@ -1,26 +1,32 @@
 #!/usr/bin/python3
+"""n queens project
 """
-N Queens Project
-Solves the N queens puzzle: placing
-N non-attacking queens on an NxN chessboard.
-"""
-
 import sys
 
+
 solutions = []
+"""list of possible solutions
+"""
 n = 0
+"""size of the playing field
+"""
 pos = None
+"""list of pos positions
+"""
 
 
 def get_input():
-    """Validates and processes the program's argument."""
+    """validates this program's argument.
+
+    """
     global n
+    n = 0
     if len(sys.argv) != 2:
         print("Usage: nqueens N")
         sys.exit(1)
     try:
         n = int(sys.argv[1])
-    except ValueError:
+    except Exception:
         print("N must be a number")
         sys.exit(1)
     if n < 4:
@@ -30,47 +36,59 @@ def get_input():
 
 
 def is_attacking(pos0, pos1):
-    """Checks if two queens are attacking each other."""
-    if pos0[0] == pos1[0] or pos0[1] == pos1[1]:
+    """check for position of attacking mode of queens
+    """
+    if (pos0[0] == pos1[0]) or (pos0[1] == pos1[1]):
         return True
     return abs(pos0[0] - pos1[0]) == abs(pos0[1] - pos1[1])
 
 
 def group_exists(group):
-    """Checks if a group of positions already exists in solutions."""
+    """checking for solution in group
+    """
     global solutions
     for stn in solutions:
-        if sorted(stn) == sorted(group):
+        i = 0
+        for stn_pos in stn:
+            for grp_pos in group:
+                if stn_pos[0] == grp_pos[0] and stn_pos[1] == grp_pos[1]:
+                    i += 1
+        if i == n:
             return True
     return False
 
 
 def build_solution(row, group):
-    """Recursively builds solutions for the N queens problem."""
-    global solutions, n
+    """solution for n queens
+    """
+    global solutions
+    global n
     if row == n:
-        if not group_exists(group):
-            solutions.append(group.copy())
+        tmp0 = group.copy()
+        if not group_exists(tmp0):
+            solutions.append(tmp0)
     else:
         for col in range(n):
-            pos_index = row * n + col
-            matches = zip([pos[pos_index]] * len(group), group)
+            a = (row * n) + col
+            matches = zip(list([pos[a]]) * len(group), group)
             used_positions = map(lambda x: is_attacking(x[0], x[1]), matches)
+            group.append(pos[a].copy())
             if not any(used_positions):
-                group.append(pos[pos_index])
                 build_solution(row + 1, group)
-                group.pop()
+            group.pop(len(group) - 1)
 
 
 def get_solutions():
-    """Finds all solutions for the given chessboard size."""
+    """solution for given chessboard size
+    """
     global pos, n
-    pos = [[i // n, i % n] for i in range(n * n)]
-    build_solution(0, [])
+    pos = list(map(lambda x: [x // n, x % n], range(n ** 2)))
+    a = 0
+    group = []
+    build_solution(a, group)
 
 
-if __name__ == "__main__":
-    n = get_input()
-    get_solutions()
-    for solution in solutions:
-        print(solution)
+n = get_input()
+get_solutions()
+for solution in solutions:
+    print(solution)
