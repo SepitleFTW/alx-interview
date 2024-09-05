@@ -23,4 +23,4 @@ def isWinner(x, nums):
         maria_wins += primes_count % 2 == 1
     if maria_wins == ben_wins:
         return None
-    return 'Maria' if marias_wins > bens_wins else 'Ben'
+    return 'Maria' if maria_wins > ben_wins else 'Ben'
